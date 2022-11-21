@@ -120,20 +120,7 @@ function CreateSurfaceData()
             let x = doX(i, j);
             let y = doY(i, j);
             let z = doZ(i, j);
-            // let x1 = doX(i, j + 0.1);
-            // let y1 = doY(i, j + 0.1);
-            // let z2 = doZ(i, j + 0.1);
-            // let x2 = doX(i + 0.1, j);
-            // let y2 = doY(i + 0.1, j);
-            // let z2 = doZ(i + 0.1, j);
-            // let x3 = doX(i + 0.1, j + 0.1);
-            // let y3 = doY(i + 0.1, j + 0.1);
-            // let z3 = doZ(i + 0.1, j + 0.1);
-
             vertexList.push(x, y, z);
-            // vertexList.push(x1/3, y1/3, z1/3);
-            // vertexList.push(x2/3, y2/3, z2/3);
-            // vertexList.push(x3/3, y3/3, z3/3);
         }
     }
 
