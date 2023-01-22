@@ -1,6 +1,9 @@
 WebGL
-Project that accompanies VGGI credit module.
+Project that accompanies VGGI Calculation and graphics work.
 
 Visit vggi-kpi.blogspot.com for more information
 
-![](https://github.com/RomanGhub/vggi_lab1/blob/PA2/Animation.gif)
+Also, reccomend use to visit this website if you are interested in WebGL. It helped me a lot.
+http://learnwebgl.brown37.net/10_surface_properties/texture_mapping_images.html
+
+![](https://github.com/RomanGhub/vggi_lab1/blob/CGW/Animation.gif)
