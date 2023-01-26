@@ -5,7 +5,7 @@ let surface;                    // A surface model
 let shProgram;                  // A shader program
 let spaceball;                  // A SimpleRotator object that lets the user rotate the view by mouse.
 
-let point = { u: 0, v: 0 };
+let point = { u: 200, v: 200 };
 
 let b = 3
 let c = 2
@@ -113,20 +113,23 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     
     /* Set the values of the projection transformation */
-    const projection = m4.perspective(Math.PI/8, 1, 8, 12); 
+    let projection = m4.perspective(Math.PI / 8, 1, 8, 12); 
     
     /* Get the view matrix from the SimpleRotator object.*/
-    const modelView = spaceball.getViewMatrix();
+    let modelView = spaceball.getViewMatrix();
 
-    const translateToPointZero = m4.translation(0,0,-10);
-    const matAccum1 = m4.multiply(translateToPointZero, modelView );
+    let rotateToPointZero = m4.axisRotation([0.707, 0.707, 0], 0.7);
+    let translateToPointZero = m4.translation(0,0,-10);
+
+    let matAccum0 = m4.multiply(rotateToPointZero, modelView);
+    let matAccum1 = m4.multiply(translateToPointZero, matAccum0 );
         
     /* Multiply the projection matrix times the modelview matrix to give the
        combined transformation matrix, and send that to the shader program. */
-    const modelViewProjection = m4.multiply(projection, matAccum1);
+    let modelViewProjection = m4.multiply(projection, matAccum1);
 
-    const worldInverseMatrix = m4.inverse(matAccum1);
-    const worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
+    let worldInverseMatrix = m4.inverse(matAccum1);
+    let worldInverseTransposeMatrix = m4.transpose(worldInverseMatrix);
 
     gl.uniformMatrix4fv(shProgram.iModelViewProjectionMatrix, false, modelViewProjection );
 
@@ -139,7 +142,7 @@ function draw() {
     gl.uniformMatrix4fv(shProgram.iWMatrix, false, matAccum1);
 
     /* Draw the six faces of a cube, with different colors. */
-    gl.uniform4fv(shProgram.iColor, [1,1,0,1] );
+    gl.uniform4fv(shProgram.iColor, [1, 1 ,1 ,1] );
 
     const scaleU = document.getElementById('textureScaleU').value;
     const scaleV = document.getElementById('textureScaleV').value;
@@ -183,7 +186,7 @@ function CreateSurfaceData() {
             normalsList.push(...m4.cross(calcDerU(u1, v0, dU), calcDerV(u1, v0, dV)));
 
             textureList.push(...calcTextureUV(u0, v0));
-            textureList.push(...calcTextureUV(u1, v1));
+            textureList.push(...calcTextureUV(u1, v0));
         }
     }
 
@@ -243,7 +246,6 @@ const reDraw = () => {
   surface.BufferData(CreateSurfaceData());
   draw();
 }
-
 
 /* Creates a program for use in the WebGL context gl, and returns the
  * identifier for that program.  If an error occurs while compiling or
@@ -343,7 +345,7 @@ function LoadTexture() {
     // Create a new "texture object"
   let texture_object = gl.createTexture();
   let image = new Image();
-  image.src = 'https://lh4.googleusercontent.com/-Y2gO2Ex8Q10/T588LBJKq7I/AAAAAAAAgzc/XKpph-vQWiw/s686/_DSC4127+-+Version+2.jpg';
+  image.src = 'https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?cs=srgb&dl=pexels-yurii-hlei-1545743.jpg&fm=jpg';
   image.crossOrigin = 'anonymous';
 
   image.onload = () => {
@@ -356,8 +358,8 @@ function LoadTexture() {
     // Set parameters of the texture object. 
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);  
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 
   // Tell gl to flip the orientation of the image on the Y axis. Most
   // images have their origin in the upper-left corner. WebGL expects
