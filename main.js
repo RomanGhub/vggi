@@ -77,9 +77,7 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     /* Set the values of the projection transformation */
-    // let projection = m4.perspective(Math.PI / 8, 1, 8, 12);
-    let para = 3
-    let projection = m4.orthographic(-para, para, -para, para, 0, para * 4);
+    let projection = m4.perspective(Math.PI / 8, 1, 8, 12);
 
     /* Get the view matrix from the SimpleRotator object.*/
     let modelView = spaceball.getViewMatrix();
@@ -205,7 +203,6 @@ function virich(i, j) {
 function f(a, b, j) {
     return ((a * b) / (Math.sqrt(a ** 2 * Math.sin(j) ** 2 + b ** 2 * Math.cos(j) ** 2)))
 }
-
 
 function vec3Cross(a, b) {
     let x = a.y * b.z - b.y * a.z;
